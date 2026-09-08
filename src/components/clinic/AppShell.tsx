@@ -117,7 +117,7 @@ function Brand({ collapsed }: { collapsed?: boolean }) {
 
 export function AppShell() {
   const [collapsed, setCollapsed] = useState(false);
-  const [clinic, setClinic] = useState(clinics[0]);
+  const [clinic, setClinic] = useState(clinics[0]!);
   const { dark, toggle } = useTheme();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -239,9 +239,9 @@ export function AppShell() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/settings">
+                    <a href="/settings">
                       <UserCircle className="size-4" /> Profile & settings
-                    </Link>
+                    </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/">
