@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellAppointmentsRouteImport } from './routes/_shell/appointments'
+import { Route as ShellBillingRouteImport } from './routes/_shell/billing'
 import { Route as ShellDashboardRouteImport } from './routes/_shell/dashboard'
+import { Route as ShellPatientsRouteImport } from './routes/_shell/patients'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,32 +25,63 @@ const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellAppointmentsRoute = ShellAppointmentsRouteImport.update({
+  id: '/appointments',
+  path: '/appointments',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellBillingRoute = ShellBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellPatientsRoute = ShellPatientsRouteImport.update({
+  id: '/patients',
+  path: '/patients',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/appointments': typeof ShellAppointmentsRoute
+  '/billing': typeof ShellBillingRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/patients': typeof ShellPatientsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/appointments': typeof ShellAppointmentsRoute
+  '/billing': typeof ShellBillingRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/patients': typeof ShellPatientsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
+  '/_shell/appointments': typeof ShellAppointmentsRoute
+  '/_shell/billing': typeof ShellBillingRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/patients': typeof ShellPatientsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths: '/' | '/appointments' | '/billing' | '/dashboard' | '/patients'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/_shell' | '/_shell/dashboard'
+  to: '/' | '/appointments' | '/billing' | '/dashboard' | '/patients'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/appointments'
+    | '/_shell/billing'
+    | '/_shell/dashboard'
+    | '/_shell/patients'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,6 +105,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/appointments': {
+      id: '/_shell/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof ShellAppointmentsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/billing': {
+      id: '/_shell/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof ShellBillingRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
@@ -78,15 +126,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellDashboardRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/patients': {
+      id: '/_shell/patients'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof ShellPatientsRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
 interface ShellRouteChildren {
+  ShellAppointmentsRoute: typeof ShellAppointmentsRoute
+  ShellBillingRoute: typeof ShellBillingRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellPatientsRoute: typeof ShellPatientsRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
+  ShellAppointmentsRoute: ShellAppointmentsRoute,
+  ShellBillingRoute: ShellBillingRoute,
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellPatientsRoute: ShellPatientsRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
